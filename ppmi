@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+MODULE=${1}
+LIBPATH=./perl_modules
+
+mkdir -p ${LIBPATH}
+
+URL=$(curl -s https://metacpan.org/pod/${MODULE} | perl -ne '/"downloadUrl" href="(.*?)"/ && print $1')
+FILE=${URL##*/}
+
+echo "Downloading ${FILE} from ${URL}"
+curl -o ${LIBPATH}/${FILE} ${URL}
+
+PARENT=$(tar tf ${LIBPATH}/${FILE} | head -n 1)
+tar zxvf ${LIBPATH}/${FILE} -C ${LIBPATH} --strip=1 ${PARENT}lib
