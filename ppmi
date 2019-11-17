@@ -12,4 +12,6 @@ echo "Downloading ${FILE} from ${URL}"
 curl -o ${LIBPATH}/${FILE} ${URL}
 
 PARENT=$(tar tf ${LIBPATH}/${FILE} | head -n 1)
+LEN=${#PARENT}
+[[ ${PARENT:LEN-1:1} != "/" ]] && PARENT="${PARENT}/"
 tar zxvf ${LIBPATH}/${FILE} -C ${LIBPATH} --strip=1 ${PARENT}lib
