@@ -15,3 +15,6 @@ PARENT=$(tar tf ${LIBPATH}/${FILE} | head -n 1)
 LEN=${#PARENT}
 [[ ${PARENT:LEN-1:1} != "/" ]] && PARENT="${PARENT}/"
 tar zxvf ${LIBPATH}/${FILE} -C ${LIBPATH} --strip=1 ${PARENT}lib
+if [ $? -ne 0 ]; then
+    echo "!!! ${1} can't be installed"
+fi
